@@ -34,6 +34,37 @@ Student& Student::operator=(const Student& source)
     return *this;
 }
 
+Student::Student(Student&& source)
+{
+    cout << "Move constructor called" << endl;
+    name = move(source.name);
+    age = source.age;
+    noOfSkills = source.noOfSkills;
+    assignedSkills = source.assignedSkills;
+    skills = source.skills;
+
+    source.skills = nullptr;
+}
+
+Student& Student::operator=(Student&& source)
+{
+    cout << "Move operator called" << endl;
+    if(this != &source)
+    {
+        delete[] skills;
+
+        name = move(source.name);
+        age = source.age;
+        noOfSkills = source.noOfSkills;
+        assignedSkills = source.assignedSkills;
+        skills = source.skills;
+        source.skills = nullptr;
+    }
+
+    return *this;
+}
+
+
 Student::~Student()
 {
     delete[] skills;
@@ -58,12 +89,25 @@ void Student::addSkill(string skillName)
     }
 }
 
+Student f(Student s) {
+    return s;
+}
+
 int main()
 {
-    Student s("ujjwal",21,3);
-    s.addSkill("C++");
-    s.addSkill("Java");
+    // Student s("ujjwal",21,3);
+    // s.addSkill("C++");
+    // s.addSkill("Java");
 
-    cout<<s<<endl;
-
+    // cout<<s<<endl;
+    auto s1 = f(Student("jim", 20, 4));
+    cout << "1 => " << s1 << endl;
+    auto s2 = move(s1);
+    cout << "2 => " << s1 << endl;
+    cout << "3 => " << s2 << endl;
+    Student s3;
+    cout << "4 => " << s3 << endl;
+    s3 = move(s2);
+    cout << "5 => " << s2 << endl;
+    cout << "6 => " << s3 << endl;
 }
