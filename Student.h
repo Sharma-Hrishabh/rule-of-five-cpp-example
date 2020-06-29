@@ -10,6 +10,8 @@ class Student
         Student(string name = "Hrishabh", int age=21, int noOfSkills=3);
         Student(const Student& source);
         Student& operator=(const Student& source);
+        Student(Student&& source);
+        Student& operator=(Student&& source);
         ~Student();
         void addSkill(string skill);
     private:
